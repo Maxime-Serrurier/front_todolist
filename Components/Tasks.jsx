@@ -11,18 +11,20 @@ function Tasks({ data }) {
     // States
     const [tasks, setTasks] = useState([]);
     const [newTask, setNewTask] = useState(false);
+    
+    // ComponentDidMount
+    useEffect(() => {
+        axios
+            .get('http://127.0.0.1:8000/api/tasks')
+            .then((response) => {
+                console.log(response.data);
+                setTasks(response.data);
+            })
+            .catch((err) => {
+                console.log(err);
+            });
+    }, []);
 
-    // // ComponentDidMount
-    // useEffect(() => {
-    //     axios
-    //         .get('http://127.0.0.1:8000/api/tasks')
-    //         .then((response) => {
-    //             setTasks(response.data);
-    //         })
-    //         .catch((err) => {
-    //             console.log(err);
-    //         });
-    // }, []);
 
     // Méthodes
     const handleClickNewTask = () => {
@@ -31,13 +33,13 @@ function Tasks({ data }) {
 
     return (
         <div>
-            <div className='bg-gradient-to-b from-orange-300 to-orange-600 p-10'>
-                <h1 className='text-center text-white text-2xl'>
+            <div className='p-10 bg-gradient-to-b from-orange-300 to-orange-600'>
+                <h1 className='text-2xl text-center text-white'>
                     ToDoList
                 </h1>
             </div>
             <div className='container mx-auto px-4 max-w-[75%] md:max-w-[50%]'>
-                <div className='flex justify-center py-3 border bg-white border-red-600 my-4 rounded-full text-red-600 shadow-lg shadow-slate-300'>
+                <div className='flex justify-center py-3 my-4 text-red-600 bg-white border border-red-600 rounded-full shadow-lg shadow-slate-300'>
                     <button
                         onClick={handleClickNewTask}
                         className='w-full h-full'
@@ -46,7 +48,7 @@ function Tasks({ data }) {
                     </button>
                 </div>
                 <div className={newTask ? 'block' : 'hidden'}>
-                    <NewTask />
+                    <NewTask tasks={tasks} setTasks={setTasks}/>
                 </div>
                 <div className='flex flex-col items-center justify-center gap-4 text-center'>
                     {tasks.map((task) => (
@@ -60,14 +62,6 @@ function Tasks({ data }) {
             </div>
         </div>
     );
-}
-
-export async function getServerSideProps() {
-    // Fetch data from external API
-    const data = await axios.get(`http://127.0.0.1:8000/api/tasks`);
-
-    // Pass data to the page via props
-    return { props: { data } };
 }
 
 export default Tasks;

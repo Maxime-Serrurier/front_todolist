@@ -2,7 +2,7 @@
 import React, { useState } from 'react';
 import axios from 'axios';
 
-function NewTask() {
+function NewTask(props) {
     //State
     const [inputTask, setInputTask] = useState('');
 
@@ -18,20 +18,21 @@ function NewTask() {
             .post('http://127.0.0.1:8000/api/tasks', {
                 title: inputTask,
             })
-            .then((response) => console.log(response))
+            .then((response) => {console.log(response)
+            props.setTasks([...props.tasks, response.data])})
+
             .catch((error) => console.log(error));
         setInputTask('');
     };
 
     return (
-        <div className='w-full py-4 flex justify-center'>
+        <div className='flex justify-center w-full py-4'>
             <form
-                action='/'
                 onSubmit={handleSubmit}
                 className='w-full'
             >
                 <input
-                    className='w-full py-3 shadow-lg bg-white rounded-full text-center'
+                    className='w-full py-3 text-center bg-white rounded-full shadow-lg'
                     value={inputTask}
                     onChange={handleChange}
                     type='text'

@@ -27,15 +27,15 @@ function NewTask(props) {
       .then((response) => {
         console.log(response);
         props.setTasks([...props.tasks, response.data]);
+        props.setFormUpdate(false);
         inputRef.current.focus();
       })
-
       .catch((error) => console.log(error));
     setInputTask('');
   };
 
   return (
-    <div className='w-[70%] mx-auto py-4'>
+    <div className='w-[80%] lg:w-[70%] mx-auto py-4'>
       <form
         onSubmit={handleSubmit}
         className='flex'

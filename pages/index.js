@@ -19,7 +19,7 @@ export default function Home() {
           href='/favicon.ico'
         />
       </Head>
-      <main className='flex flex-col min-h-screen sm:justify-center'>
+      <main className='flex flex-col justify-center min-h-screen px-4'>
         <Tasks />
       </main>
     </>

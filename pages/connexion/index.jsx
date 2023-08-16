@@ -1,5 +1,7 @@
 // Librairies
 import { useForm } from 'react-hook-form';
+import axios from '../../config/axios';
+import { useRouter } from 'next/router';
 
 function Connexion() {
     // Variables
@@ -9,8 +11,35 @@ function Connexion() {
         formState: { errors },
     } = useForm();
 
+    const router = useRouter();
+
     // Méthodes
-    const handleFormSubmit = (data) => console.log(data);
+    const handleFormSubmit = (data) => {
+        console.log(data);
+        axios
+            .post('/connexion', {
+                email: data.email,
+                password: data.password,
+            })
+            .then((response) => {
+                console.log('Response Data:', response.data);
+                console.log('Status:', response.status);
+                if (response.status === 200) {
+                    router.push('/');
+                }
+            })
+            .catch((err) => {
+                if (err.response) {
+                    console.log(
+                        'Error Response Data:',
+                        err.response.data
+                    );
+                    console.log('Error Status:', err.response.status);
+                } else {
+                    console.log('Network Error:', err.message);
+                }
+            });
+    };
 
     // JSX
     return (

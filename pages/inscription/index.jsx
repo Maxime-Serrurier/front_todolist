@@ -1,5 +1,8 @@
 // Librairies
 import { useForm } from 'react-hook-form';
+import axios from '../../config/axios';
+import { Navigate } from 'react-router-dom';
+import { useRouter } from 'next/router';
 
 function Inscription() {
     // Variables
@@ -9,8 +12,21 @@ function Inscription() {
         formState: { errors },
     } = useForm();
 
+    const router = useRouter();
+
     // Méthodes
-    const handleFormSubmit = (data) => console.log(data);
+    const handleFormSubmit = (data) => {
+        axios
+            .post('/inscription', {
+                pseudo: data.pseudo,
+                email: data.email,
+                password: data.password,
+            })
+            .then((response) => console.log(response))
+            .catch((err) => console.log(err));
+
+        router.push('/connexion');
+    };
     // JSX
     return (
         <div className='h-screen flex flex-col justify-center'>

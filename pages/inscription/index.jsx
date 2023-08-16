@@ -1,7 +1,6 @@
 // Librairies
 import { useForm } from 'react-hook-form';
 import axios from '../../config/axios';
-import { Navigate } from 'react-router-dom';
 import { useRouter } from 'next/router';
 
 function Inscription() {

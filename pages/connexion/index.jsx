@@ -2,6 +2,7 @@
 import { useForm } from 'react-hook-form';
 import axios from '../../config/axios';
 import { useRouter } from 'next/router';
+import { useEffect } from 'react';
 
 function Connexion() {
     // Variables
@@ -12,6 +13,13 @@ function Connexion() {
     } = useForm();
 
     const router = useRouter();
+
+    useEffect(() => {
+        // Check if the user is connected!
+        if (localStorage.getItem('auth_token')) {
+            router.push('/');
+        }
+    }, []);
 
     // Méthodes
     const handleFormSubmit = (data) => {
@@ -25,6 +33,14 @@ function Connexion() {
                 console.log('Response Data:', response.data);
                 console.log('Status:', response.status);
                 if (response.status === 200) {
+                    localStorage.setItem(
+                        'auth_token',
+                        response.data.token
+                    );
+                    localStorage.setItem(
+                        'auth_name',
+                        response.data.pseudo
+                    );
                     router.push('/');
                 }
             })

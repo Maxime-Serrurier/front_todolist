@@ -13,12 +13,11 @@ function Tasks() {
     const [tasks, setTasks] = useState([]);
     const [id, setId] = useState('');
     const [formUpdate, setFormUpdate] = useState(false);
-    const [text, count] = useTypewriter({
-        words: ["Qu'allons nous faire aujourd'hui ?"],
-    });
+    const [pseudo, setPseudo] = useState('');
 
     // ComponentDidMount
     useEffect(() => {
+        setPseudo(localStorage.getItem('auth_name'));
         axios
             .get('/tasks')
             .then((response) => {
@@ -28,6 +27,17 @@ function Tasks() {
                 console.log(err);
             });
     }, []);
+
+    // Typewriter
+    const [text, count] = useTypewriter({
+        words: [
+            `Bonjour ${pseudo}, ${
+                tasks.length === 0
+                    ? "qu'allons nous faire aujourd'hui ?"
+                    : `vous avez ${tasks.length} taches à accomplir`
+            }`,
+        ],
+    });
 
     return (
         <div className='relative min-w-[300px] max-w-[500px] md:max-w-[500px] md:min-w-[500px] lg:max-w-[900px] lg:min-w-[900px] mx-auto max-h-[95vh] min-h-[80vh] overflow-scroll scrollbar-thin scrollbar-thumb-blue-400 scrollbar-thumb-rounded-full scrollbar-track-rounded-full shadow-2xl bg-[#151A30] rounded-xl font-semibold'>

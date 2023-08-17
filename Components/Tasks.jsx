@@ -34,14 +34,14 @@ function Tasks() {
             `Bonjour ${pseudo}, ${
                 tasks.length === 0
                     ? "qu'allons nous faire aujourd'hui ?"
-                    : `vous avez ${tasks.length} taches à accomplir`
+                    : `vous avez ${tasks.length} tâches à accomplir`
             }`,
         ],
     });
 
     return (
         <div className='relative min-w-[300px] max-w-[500px] md:max-w-[500px] md:min-w-[500px] lg:max-w-[900px] lg:min-w-[900px] mx-auto max-h-[95vh] min-h-[80vh] overflow-scroll scrollbar-thin scrollbar-thumb-blue-400 scrollbar-thumb-rounded-full scrollbar-track-rounded-full shadow-2xl bg-[#151A30] rounded-xl font-semibold'>
-            <h1 className='sticky top-0 z-30 p-8 text-4xl lg:text-6xl text-center text-white bg-[#151A30]'>
+            <h1 className='sticky top-0 z-30 p-8 text-4xl lg:text-5xl text-center text-white bg-[#151A30]'>
                 <span className='mr-3'>{text}</span>
             </h1>
 

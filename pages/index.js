@@ -1,9 +1,10 @@
 // Composants
 import Head from 'next/head';
 import Tasks from 'Components/Tasks';
-import Logout from 'Components/Logout';
+import Logout from '@/Components/Logout';
 
 export default function Home() {
+    // JSX
     return (
         <>
             <Head>

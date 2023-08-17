@@ -3,6 +3,7 @@ import { useForm } from 'react-hook-form';
 import axios from '../../config/axios';
 import { useRouter } from 'next/router';
 import { useEffect } from 'react';
+import Link from 'next/link';
 
 function Connexion() {
     // Variables
@@ -123,9 +124,17 @@ function Connexion() {
                                 </small>
                             )}
                         </p>
-                        <button className='self-end py-2 bg-gradient-to-l from-[#f4742f] to-[#FE4A14] rounded-lg px-4 text-[#FFF] hover:opacity-80'>
-                            Connexion
-                        </button>
+                        <div className='flex justify-end gap-x-4'>
+                            <Link
+                                href='/inscription'
+                                className='self-end py-2 bg-gradient-to-l from-[#612be9] to-[#510094] rounded-lg px-4 text-[#FFF] hover:opacity-90'
+                            >
+                                Inscription
+                            </Link>
+                            <button className='self-end py-2 bg-gradient-to-l from-[#f4742f] to-[#FE4A14] rounded-lg px-4 text-[#FFF] hover:opacity-90'>
+                                Je me connecte !
+                            </button>
+                        </div>
                     </form>
                 </div>
             </div>

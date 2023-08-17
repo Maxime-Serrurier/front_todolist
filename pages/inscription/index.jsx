@@ -2,6 +2,7 @@
 import { useForm } from 'react-hook-form';
 import axios from '../../config/axios';
 import { useRouter } from 'next/router';
+import Link from 'next/link';
 
 function Inscription() {
     // Variables
@@ -114,9 +115,17 @@ function Inscription() {
                                 </small>
                             )}
                         </p>
-                        <button className='self-end py-2 bg-gradient-to-l from-[#f4742f] to-[#FE4A14] rounded-lg px-4 text-[#FFF] hover:opacity-80'>
-                            Je m'inscris !
-                        </button>
+                        <div className='flex justify-end gap-x-4'>
+                            <Link
+                                href='/connexion'
+                                className='self-end py-2 bg-gradient-to-l from-[#612be9] to-[#510094] rounded-lg px-4 text-[#FFF] hover:opacity-90'
+                            >
+                                Connexion
+                            </Link>
+                            <button className='self-end py-2 bg-gradient-to-l from-[#f4742f] to-[#FE4A14] rounded-lg px-4 text-[#FFF] hover:opacity-90'>
+                                Je m'inscris !
+                            </button>
+                        </div>
                     </form>
                 </div>
             </div>

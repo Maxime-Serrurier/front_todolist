@@ -1,7 +1,7 @@
 // Librairies
-import React, { useEffect, useState } from 'react';
-import axios from '../config/axios';
+import { useEffect, useState } from 'react';
 import { useTypewriter } from 'react-simple-typewriter';
+import useTaskStore from '@/store/store';
 
 // Composant
 import Task from './Task';
@@ -10,35 +10,33 @@ import InputFormUpdate from './InputFormUpdate';
 
 function Tasks() {
     // States
-    const [tasks, setTasks] = useState([]);
     const [id, setId] = useState('');
     const [formUpdate, setFormUpdate] = useState(false);
     const [pseudo, setPseudo] = useState('');
+    const fetchTasks = useTaskStore((state) => state.fetchTasks);
+    const tasks = useTaskStore((state) => state.tasks);
+    const countTask = useTaskStore((state) => state.countTask);
 
     // ComponentDidMount
     useEffect(() => {
         setPseudo(localStorage.getItem('auth_name'));
-        axios
-            .get('/tasks')
-            .then((response) => {
-                setTasks(response.data);
-            })
-            .catch((err) => {
-                console.log(err);
-            });
+        fetchTasks();
     }, []);
 
     // Typewriter
     const [text, count] = useTypewriter({
         words: [
             `Bonjour ${pseudo}, ${
-                tasks.length === 0
+                countTask === 0
                     ? "qu'allons nous faire aujourd'hui ?"
-                    : `vous avez ${tasks.length} tâches à accomplir`
+                    : `vous avez ${countTask} ${
+                          countTask === 1 ? 'tâche' : 'tâches'
+                      } à accomplir`
             }`,
         ],
     });
 
+    console.log(countTask);
     return (
         <div className='relative min-w-[300px] max-w-[500px] md:max-w-[500px] md:min-w-[500px] lg:max-w-[900px] lg:min-w-[900px] mx-auto max-h-[95vh] min-h-[80vh] overflow-scroll scrollbar-thin scrollbar-thumb-blue-400 scrollbar-thumb-rounded-full scrollbar-track-rounded-full shadow-2xl bg-[#151A30] rounded-xl font-semibold'>
             <h1 className='sticky top-0 z-30 p-8 text-4xl lg:text-5xl text-center text-white bg-[#151A30]'>
@@ -49,7 +47,6 @@ function Tasks() {
                 <div className='flex flex-col justify-center gap-4'>
                     <NewTask
                         tasks={tasks}
-                        setTasks={setTasks}
                         formUpdate={formUpdate}
                         setFormUpdate={setFormUpdate}
                     />
@@ -59,7 +56,6 @@ function Tasks() {
                                 formUpdate={formUpdate}
                                 setFormUpdate={setFormUpdate}
                                 tasks={tasks}
-                                setTasks={setTasks}
                                 key={task.id}
                                 title={task.title}
                                 id={task.id}

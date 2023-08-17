@@ -1,11 +1,12 @@
 // Librairies
-import React, { useState } from 'react';
-import axios from '../config/axios';
+import useTaskStore from '@/store/store';
+import { useState } from 'react';
 import { HiPencilAlt, HiTrash } from 'react-icons/hi';
 
-function Task(props) {
+function Task({ id, setId, formUpdate, title, setFormUpdate }) {
     // State
     const [checkTask, setCheckTask] = useState(false);
+    const deleteTask = useTaskStore((state) => state.deleteTask);
 
     // Méthodes
     const handleClickCheck = () => {
@@ -13,19 +14,12 @@ function Task(props) {
     };
 
     const handleClickDelete = () => {
-        axios
-            .delete(`/tasks/${props.id}`)
-            .then(() =>
-                props.setTasks(
-                    props.tasks.filter((task) => task.id !== props.id)
-                )
-            )
-            .catch((err) => console.log(err));
+        deleteTask(id);
     };
 
     const handleClickUpdate = () => {
-        props.setFormUpdate(!props.formUpdate);
-        props.setId(props.id);
+        setFormUpdate(!formUpdate);
+        setId(id);
     };
 
     // JSX
@@ -39,7 +33,7 @@ function Task(props) {
                 onClick={handleClickCheck}
                 className='block w-full px-4 py-4'
             >
-                {props.title}
+                {title}
             </div>
             <div className='flex p-4 gap-x-2'>
                 <HiPencilAlt

@@ -1,6 +1,6 @@
 // Librairies
+import useTaskStore from '@/store/store';
 import { useEffect, useState, useRef } from 'react';
-import axios from '../config/axios';
 
 function NewTask(props) {
     const inputRef = useRef(null);
@@ -11,6 +11,7 @@ function NewTask(props) {
 
     //State
     const [inputTask, setInputTask] = useState('');
+    const createTask = useTaskStore((state) => state.createTask);
 
     // Méthodes
     const handleChange = (e) => {
@@ -18,26 +19,21 @@ function NewTask(props) {
         setInputTask(inputTask);
     };
 
-    const handleSubmit = (e) => {
-        e.preventDefault();
-        axios
-            .post('/tasks', {
-                title: inputTask,
-            })
-            .then((response) => {
-                console.log(response);
-                props.setTasks([...props.tasks, response.data]);
-                props.setFormUpdate(false);
+    const handleCreateTask = (event) => {
+        event.preventDefault();
+        const inputTask = inputRef.current.value.trim();
+        if (inputTask) {
+            createTask(inputTask);
+            props.setFormUpdate(false);
 
-                inputRef.current.focus();
-            })
-            .catch((error) => console.log(error));
+            inputRef.current.focus();
+        }
         setInputTask('');
     };
 
     return (
         <div className='w-[80%] lg:w-[70%] mx-auto py-4'>
-            <form onSubmit={handleSubmit} className='flex'>
+            <form onSubmit={handleCreateTask} className='flex'>
                 <input
                     ref={inputRef}
                     className='w-full p-4 bg-transparent ring-2 ring-[#FE4A14] ring-inset outline-2 focus:outline-none rounded-l-lg shadow-lg  text-[#FFF] '

@@ -1,17 +1,29 @@
 // Librairies
-import useTaskStore from '@/store/store';
+import useTaskStore from '@/store/taskStore';
 import { useState } from 'react';
 import { HiPencilAlt, HiTrash } from 'react-icons/hi';
 import PropTypes from 'prop-types';
 
-function Task({ id, setId, formUpdate, title, setFormUpdate }) {
+function Task({
+    id,
+    setId,
+    formUpdate,
+    title,
+    setFormUpdate,
+    status,
+}) {
     // State
-    const [checkTask, setCheckTask] = useState(false);
-    const deleteTask = useTaskStore((state) => state.deleteTask);
+    const [checkTask, setCheckTask] = useState(status === 1);
+    const [deleteTask, toggleTaskStatus] = useTaskStore((state) => [
+        state.deleteTask,
+        state.toggleTaskStatus,
+    ]);
 
     // Méthodes
     const handleClickCheck = () => {
+        const newStatus = checkTask ? (status = 0) : (status = 1);
         setCheckTask(!checkTask);
+        toggleTaskStatus(id, newStatus, title);
     };
 
     const handleClickDelete = () => {
@@ -57,7 +69,8 @@ export default Task;
 Task.propTypes = {
     id: PropTypes.number.isRequired,
     title: PropTypes.string.isRequired,
-    setId: PropTypes.number.isRequired,
+    setId: PropTypes.func.isRequired,
     formUpdate: PropTypes.bool.isRequired,
     setFormUpdate: PropTypes.func.isRequired,
+    status: PropTypes.number.isRequired,
 };

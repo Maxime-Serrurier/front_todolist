@@ -1,6 +1,6 @@
 // Librairies
 import { useEffect, useState } from 'react';
-import useTaskStore from '@/store/store';
+import useTaskStore from '@/store/taskStore';
 
 // Composant
 import Task from './Task';
@@ -9,12 +9,16 @@ import InputFormUpdate from './InputFormUpdate';
 
 function Tasks() {
     // States
+
+    // const [statusTask, setStatusTask] = useState(0);
     const [id, setId] = useState('');
     const [formUpdate, setFormUpdate] = useState(false);
     const [pseudo, setPseudo] = useState('');
-    const fetchTasks = useTaskStore((state) => state.fetchTasks);
-    const tasks = useTaskStore((state) => state.tasks);
-    const countTask = useTaskStore((state) => state.countTask);
+    const [fetchTasks, tasks, countTask] = useTaskStore((state) => [
+        state.fetchTasks,
+        state.tasks,
+        state.countTask,
+    ]);
 
     // ComponentDidMount
     useEffect(() => {
@@ -22,7 +26,7 @@ function Tasks() {
         fetchTasks();
     }, []);
 
-    console.log(countTask);
+    // JSX
     return (
         <div className='relative min-w-[300px] max-w-[500px] md:max-w-[500px] md:min-w-[500px] lg:max-w-[900px] lg:min-w-[900px] mx-auto max-h-[95vh] min-h-[80vh] overflow-scroll scrollbar-thin scrollbar-thumb-blue-400 scrollbar-thumb-rounded-full scrollbar-track-rounded-full shadow-2xl bg-[#151A30] rounded-xl font-semibold'>
             <h1 className='sticky top-0 z-30 p-8 text-4xl lg:text-5xl text-center text-white bg-[#151A30]'>
@@ -54,6 +58,7 @@ function Tasks() {
                                 id={task.id}
                                 taskId={id}
                                 setId={setId}
+                                status={task.status}
                             />
                         ))
                     ) : (

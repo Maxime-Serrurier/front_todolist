@@ -24,7 +24,6 @@ function Connexion() {
 
     // Méthodes
     const handleFormSubmit = (data) => {
-        console.log(data);
         axios
             .post('/connexion', {
                 email: data.email,

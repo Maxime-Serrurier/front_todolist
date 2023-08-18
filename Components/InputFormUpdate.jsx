@@ -1,5 +1,5 @@
 // Librairies
-import useTaskStore from '@/store/store';
+import useTaskStore from '@/store/taskStore';
 import axios from 'config/axios';
 import { useEffect, useState, useRef } from 'react';
 import PropTypes from 'prop-types';
@@ -7,7 +7,10 @@ import PropTypes from 'prop-types';
 function InputFormUpdate({ taskId, formUpdate, setFormUpdate }) {
     // State
     const [taskValue, setTaskValue] = useState('');
-    const updateTask = useTaskStore((state) => state.updateTask);
+    const [updateTask, status] = useTaskStore((state) => [
+        state.updateTask,
+        state.taskStatus[taskId],
+    ]);
 
     // useRef
     const inputRef = useRef(null);
@@ -31,7 +34,7 @@ function InputFormUpdate({ taskId, formUpdate, setFormUpdate }) {
 
     const handleUpdateTask = (e) => {
         e.preventDefault();
-        updateTask(taskId, taskValue);
+        updateTask(taskId, taskValue, status);
         setFormUpdate(!formUpdate);
     };
 

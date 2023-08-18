@@ -1,5 +1,5 @@
 // Librairies
-import useTaskStore from '@/store/store';
+import useTaskStore from '@/store/taskStore';
 import { useEffect, useState, useRef } from 'react';
 import PropTypes from 'prop-types';
 

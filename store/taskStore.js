@@ -3,12 +3,21 @@ import axios from 'config/axios';
 
 const useTaskStore = create((set) => ({
     tasks: [],
+    taskStatus: {},
     countTask: 0,
     fetchTasks: async () => {
         try {
             const response = await axios.get('/tasks');
-            set({ tasks: response.data });
-            set({ countTask: response.data.length });
+            const tasks = response.data;
+            const taskStatus = tasks.reduce((statusMap, task) => {
+                statusMap[task.id] = task.status;
+                return statusMap;
+            }, {});
+            set({
+                tasks: tasks,
+                countTask: response.data.length,
+                taskStatus: taskStatus,
+            });
         } catch (error) {
             console.error('Error fetching tasks:', error);
         }
@@ -40,10 +49,11 @@ const useTaskStore = create((set) => ({
         }
     },
 
-    updateTask: async (taskId, taskValue) => {
+    updateTask: async (taskId, taskValue, newStatus) => {
         try {
             await axios.put(`/tasks/${taskId}`, {
                 title: taskValue,
+                status: newStatus,
             });
 
             set((state) => ({
@@ -55,6 +65,25 @@ const useTaskStore = create((set) => ({
             }));
         } catch (error) {
             console.error('Error updating task:', error);
+        }
+    },
+
+    toggleTaskStatus: async (taskId, newStatus, taskValue) => {
+        try {
+            await axios.put(`/tasks/${taskId}`, {
+                title: taskValue,
+                status: newStatus,
+            });
+
+            set((state) => ({
+                tasks: state.tasks.map((task) =>
+                    task.id === taskId
+                        ? { ...task, status: newStatus }
+                        : task
+                ),
+            }));
+        } catch (error) {
+            console.error('Error toggling task status:', error);
         }
     },
 }));

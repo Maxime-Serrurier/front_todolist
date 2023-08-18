@@ -1,6 +1,5 @@
 // Librairies
 import { useEffect, useState } from 'react';
-import { useTypewriter } from 'react-simple-typewriter';
 import useTaskStore from '@/store/store';
 
 // Composant
@@ -23,24 +22,18 @@ function Tasks() {
         fetchTasks();
     }, []);
 
-    // Typewriter
-    const [text, count] = useTypewriter({
-        words: [
-            `Bonjour ${pseudo}, ${
-                countTask === 0
-                    ? "qu'allons nous faire aujourd'hui ?"
-                    : `vous avez ${countTask} ${
-                          countTask === 1 ? 'tâche' : 'tâches'
-                      } à accomplir`
-            }`,
-        ],
-    });
-
     console.log(countTask);
     return (
         <div className='relative min-w-[300px] max-w-[500px] md:max-w-[500px] md:min-w-[500px] lg:max-w-[900px] lg:min-w-[900px] mx-auto max-h-[95vh] min-h-[80vh] overflow-scroll scrollbar-thin scrollbar-thumb-blue-400 scrollbar-thumb-rounded-full scrollbar-track-rounded-full shadow-2xl bg-[#151A30] rounded-xl font-semibold'>
             <h1 className='sticky top-0 z-30 p-8 text-4xl lg:text-5xl text-center text-white bg-[#151A30]'>
-                <span className='mr-3'>{text}</span>
+                <span className='mr-3'>
+                    Bonjour {pseudo},{' '}
+                    {countTask === 0
+                        ? "qu'allons nous faire aujourd'hui ?"
+                        : `vous avez ${countTask} ${
+                              countTask === 1 ? 'tâche' : 'tâches'
+                          } à accomplir`}
+                </span>
             </h1>
 
             <div className='pb-8 mx-auto lg:max-w-[90%]'>
@@ -69,7 +62,6 @@ function Tasks() {
                             setFormUpdate={setFormUpdate}
                             taskId={id}
                             tasks={tasks}
-                            setTasks={setTasks}
                         />
                     )}
                 </div>

@@ -39,6 +39,24 @@ const useTaskStore = create((set) => ({
             console.error('Error creating task:', error);
         }
     },
+
+    updateTask: async (taskId, taskValue) => {
+        try {
+            await axios.put(`/tasks/${taskId}`, {
+                title: taskValue,
+            });
+
+            set((state) => ({
+                tasks: state.tasks.map((task) =>
+                    task.id === taskId
+                        ? { ...task, title: taskValue }
+                        : task
+                ),
+            }));
+        } catch (error) {
+            console.error('Error updating task:', error);
+        }
+    },
 }));
 
 export default useTaskStore;

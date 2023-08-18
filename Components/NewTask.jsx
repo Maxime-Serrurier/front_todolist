@@ -1,8 +1,9 @@
 // Librairies
 import useTaskStore from '@/store/store';
 import { useEffect, useState, useRef } from 'react';
+import PropTypes from 'prop-types';
 
-function NewTask(props) {
+function NewTask({ setFormUpdate }) {
     const inputRef = useRef(null);
     // ComponentDidMount
     useEffect(() => {
@@ -24,7 +25,7 @@ function NewTask(props) {
         const inputTask = inputRef.current.value.trim();
         if (inputTask) {
             createTask(inputTask);
-            props.setFormUpdate(false);
+            setFormUpdate(false);
 
             inputRef.current.focus();
         }
@@ -52,3 +53,7 @@ function NewTask(props) {
 }
 
 export default NewTask;
+
+NewTask.propTypes = {
+    setFormUpdate: PropTypes.func.isRequired,
+};

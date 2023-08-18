@@ -1,9 +1,13 @@
+// Librairies
+import useTaskStore from '@/store/store';
 import axios from 'config/axios';
-import React, { useEffect, useState, useRef } from 'react';
+import { useEffect, useState, useRef } from 'react';
+import PropTypes from 'prop-types';
 
-function InputFormUpdate(props) {
+function InputFormUpdate({ taskId, formUpdate, setFormUpdate }) {
     // State
     const [taskValue, setTaskValue] = useState('');
+    const updateTask = useTaskStore((state) => state.updateTask);
 
     // useRef
     const inputRef = useRef(null);
@@ -12,7 +16,7 @@ function InputFormUpdate(props) {
     useEffect(() => {
         inputRef.current.focus();
         axios
-            .get(`/tasks/${props.taskId}`)
+            .get(`/tasks/${taskId}`)
             .then((response) => {
                 setTaskValue(response.data.title);
             })
@@ -27,27 +31,8 @@ function InputFormUpdate(props) {
 
     const handleUpdateTask = (e) => {
         e.preventDefault();
-        axios
-            .put(`/tasks/${props.taskId}`, {
-                title: taskValue,
-            })
-            .then((response) => {
-                console.log(response);
-                const updatedTasks = props.tasks.map((task) => {
-                    if (task.id === props.taskId) {
-                        return {
-                            ...task,
-                            title: taskValue,
-                        };
-                    } else {
-                        return task;
-                    }
-                });
-                props.setTasks(updatedTasks);
-            })
-            .catch((err) => console.log(err));
-
-        props.setFormUpdate(!props.formUpdate);
+        updateTask(taskId, taskValue);
+        setFormUpdate(!formUpdate);
     };
 
     // JSX
@@ -72,3 +57,9 @@ function InputFormUpdate(props) {
 }
 
 export default InputFormUpdate;
+
+InputFormUpdate.propTypes = {
+    taskId: PropTypes.number.isRequired,
+    formUpdate: PropTypes.bool.isRequired,
+    setFormUpdate: PropTypes.func.isRequired,
+};

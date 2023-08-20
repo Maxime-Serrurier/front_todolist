@@ -22,10 +22,12 @@ function Inscription() {
                 email: data.email,
                 password: data.password,
             })
-            .then((response) => console.log(response))
+            .then((response) => {
+                console.log(response.status);
+                response.status === 200 && router.push('/connexion');
+            })
             .catch((err) => console.log(err));
-
-        router.push('/connexion');
+        console.log(data);
     };
     // JSX
     return (
